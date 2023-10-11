@@ -1,5 +1,6 @@
 package qqclient.view;
 
+import qqclient.service.UserClientService;
 import qqclient.utils.Utility;
 
 
@@ -10,6 +11,7 @@ import qqclient.utils.Utility;
 public class QQView {
     private boolean loop = true; //控制是否显示主菜单
     private String key = ""; //接收用户的键盘输入
+    private UserClientService userClientService = new UserClientService();//用于登录服务器和注册用户
 
     public static void main(String[] args) {
         new QQView().mainMenu();
@@ -32,7 +34,7 @@ public class QQView {
                     System.out.print("请输入密  码：");
                     String pwd = Utility.readString();
                     //后续需要构建user，到服务端看是否合法编写一个UserClientService类进行用户的登陆和注册
-                    if (true){ //验证通过
+                    if (userClientService.checkUser(userId,pwd)){ //验证通过
                         System.out.println("=============用户" + userId + "登录成功" + "==============");
                         //进入二级菜单
                         while (loop){

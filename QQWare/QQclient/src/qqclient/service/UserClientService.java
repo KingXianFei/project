@@ -37,8 +37,8 @@ public class UserClientService {
                 clientConnectServerThread.start();
                 MangeClientConnectServerThread.addClientConnectServerThread(userId,clientConnectServerThread);
                 b = true;
-            }else{//登录失败
-
+            }else{//登录失败，没有启动和服务器启动的线程
+                socket.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
