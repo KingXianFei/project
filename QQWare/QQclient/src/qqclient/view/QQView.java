@@ -31,7 +31,7 @@ public class QQView {
                     String userId = Utility.readString();
                     System.out.print("请输入密  码：");
                     String pwd = Utility.readString();
-                    //后续需要构建user，到服务端看是否合法
+                    //后续需要构建user，到服务端看是否合法编写一个UserClientService类进行用户的登陆和注册
                     if (true){ //验证通过
                         System.out.println("=============用户" + userId + "登录成功" + "==============");
                         //进入二级菜单
