@@ -4,6 +4,7 @@ import com.king.qqcommon.Message;
 import com.king.qqcommon.MessageType;
 import com.king.qqcommon.User;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
@@ -44,5 +45,25 @@ public class UserClientService {
             e.printStackTrace();
         }
         return b;
+    }
+    /**
+     * 向服务端请求在线用户列表
+     */
+    public void getOnlineFriendList(){
+        //发送一个Message，类型为MESSAGE_GET_ONLINE_FRIEND
+        Message message = new Message();
+        message.setMesType(MessageType.MESSAGE_GET_ONLINE_FRIEND);
+        message.setSender(user.getUserId());
+        //发送给服务器
+        try {
+            //获取当前用户和服务端连接的线程的输出对象流
+            ObjectOutputStream oos = new ObjectOutputStream(MangeClientConnectServerThread.
+                    getClientConnectServerThread(user.getUserId()).getSocket().getOutputStream());
+            oos.writeObject(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }

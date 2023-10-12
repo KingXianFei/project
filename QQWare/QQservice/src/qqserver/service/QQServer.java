@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 
 /**
  * @version 1.0
@@ -17,7 +18,15 @@ import java.net.Socket;
  */
 public class QQServer {
     private ServerSocket serverSocket = null;
-
+    //创建一个集合，储存合法用户信息进行认证
+    private static HashMap<String,User> validUsers = new HashMap<>();
+    static {//静态代码块，初始化validUsers
+        validUsers.put("100",new User("100","123456"));
+        validUsers.put("200",new User("200","123456"));
+        validUsers.put("至尊宝",new User("至尊宝","123456"));
+        validUsers.put("紫霞仙子",new User("紫霞仙子","123456"));
+        validUsers.put("猪八戒",new User("猪八戒","123456"));
+    }
     public QQServer() {
         try {
             System.out.println("服务端在9999端口监听...");
@@ -30,7 +39,7 @@ public class QQServer {
                 //得到socket关联对象的输入流
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
                 Message message = new Message();
-                if (user.getUserId().equals("100") && user.getPasswd().equals("123456")){//合法用户
+                if (checkUser(user)){//合法用户
                     message.setMesType(MessageType.MESSAGE_LOGIN_SUCCEED);
                     objectOutputStream.writeObject(message);
                     //创建一个线程和客户端保持通信
@@ -54,5 +63,24 @@ public class QQServer {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * 验证客户端user是否在合法的集合中
+     * @param user
+     * @return
+     */
+    public boolean checkUser(User user){
+        User validUser = validUsers.get(user.getUserId());
+        if (validUser == null){//用户不存在
+            return false;
+        }
+        if (!user.getPasswd().equals(validUser.getPasswd())){//密码错误
+            return false;
+        }
+        if (!(ManageServerConnectClientThread.getServerConnectClientThread(user.getUserId()) == null)){
+            return false;//验证单点登录，此用户已经和服务端进行了连接
+        }
+        return true;
     }
 }

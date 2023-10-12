@@ -1,6 +1,7 @@
 package qqclient.service;
 
 import com.king.qqcommon.Message;
+import com.king.qqcommon.MessageType;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -34,6 +35,15 @@ public class ClientConnectServerThread extends Thread{
                 System.out.println("客户端线程，等待读取从服务器端发送消息");//如果服务器没有发消息，会一直阻塞在这里
                 ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
                 Message message = (Message)objectInputStream.readObject();
+                if (message.getMesType().equals(MessageType.MESSAGE_RET_ONLINE_FRIEND)){//返回的是在线用户列表信息
+                    String[] onlineUsers = message.getContent().split(" ");//规定形式，采用空格进行字符串拆分
+                    System.out.println("\n======当前在线用户列表======");
+                    for (int i = 0; i < onlineUsers.length; i++) {
+                        System.out.println("用户"+i+"："+ onlineUsers[i]);
+                    }
+                }else{
+                    System.out.println("是其他类型信息，暂时不处理");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

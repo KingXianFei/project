@@ -23,4 +23,14 @@ public class ManageServerConnectClientThread {
     public static ServerConnectClientThread getServerConnectClientThread(String userId){
         return hm.get(userId);
     }
+    /**
+     * 编写返回在线用户列表方法
+     */
+    public static String getOnlineUser(){
+        String st = "";
+        for(String userId : hm.keySet()){
+            st += userId+" ";
+        }
+        return st;
+    }
 }
