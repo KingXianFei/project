@@ -81,8 +81,14 @@ public class UserClientService {
         //关闭此客户和服务器连接的线程
         ClientConnectServerThread clientConnectServerThread =
                 MangeClientConnectServerThread.getClientConnectServerThread(user.getUserId());
+        try {
+            clientConnectServerThread.getSocket().close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         clientConnectServerThread.setExit(true);
-        System.exit(0);
+
+        //System.exit(0);//直接结束进程
         //将此线程从集合中移除
         MangeClientConnectServerThread.deleteClientConnectServerThread(user.getUserId());
     }

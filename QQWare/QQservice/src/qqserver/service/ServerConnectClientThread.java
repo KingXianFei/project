@@ -3,7 +3,6 @@ package qqserver.service;
 import com.king.qqcommon.Message;
 import com.king.qqcommon.MessageType;
 
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -51,6 +50,7 @@ public class ServerConnectClientThread extends Thread{
                 }else if (message.getMesType().equals(MessageType.MESSAGE_CLIENT_EXIT)) {
                     //客户端退出
                     exit = true;//关闭此线程
+                    socket.close();//关闭socket
                     //将此线程从集合中移除
                     ManageServerConnectClientThread.deleteServerConnectClientThread(message.getSender());
                     System.out.println(message.getSender()+"退出连接~");
