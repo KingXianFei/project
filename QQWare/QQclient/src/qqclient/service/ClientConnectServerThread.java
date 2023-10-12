@@ -14,6 +14,7 @@ import java.net.Socket;
  */
 public class ClientConnectServerThread extends Thread{
     private Socket socket;
+    private boolean exit = false; //用于控制此线程的结束
     //该线程需要持有socket
     public ClientConnectServerThread(Socket socket){
         this.socket = socket;
@@ -27,10 +28,18 @@ public class ClientConnectServerThread extends Thread{
         this.socket = socket;
     }
 
+    public boolean isExit() {
+        return exit;
+    }
+
+    public void setExit(boolean exit) {
+        this.exit = exit;
+    }
+
     @Override
     public void run() {
         //线程需要一直通信，要做成while循环
-        while (true){
+        while (!exit){
             try {
                 System.out.println("客户端线程，等待读取从服务器端发送消息");//如果服务器没有发消息，会一直阻塞在这里
                 ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());

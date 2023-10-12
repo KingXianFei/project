@@ -18,4 +18,8 @@ public class MangeClientConnectServerThread {
     public static ClientConnectServerThread getClientConnectServerThread(String userId){
         return hm.get(userId);
     }
+    //客户端关闭线程，将其从集合中移除
+    public static void deleteClientConnectServerThread(String userId){
+        hm.remove(userId);
+    }
 }

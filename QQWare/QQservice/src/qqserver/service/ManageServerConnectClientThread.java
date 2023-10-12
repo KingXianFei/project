@@ -33,4 +33,10 @@ public class ManageServerConnectClientThread {
         }
         return st;
     }
+    /**
+     * 将线程移除集合
+     */
+    public static void deleteServerConnectClientThread(String userId){
+         hm.remove(userId);
+    }
 }

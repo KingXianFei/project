@@ -63,7 +63,27 @@ public class UserClientService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
+    }
+    /**
+     * 退出客户端
+     */
+    public void exitClient(){
+        //创建消息，发送给服务端,让服务端那边也关闭和此用户通信的线程
+        Message message = new Message();
+        message.setMesType(MessageType.MESSAGE_CLIENT_EXIT);
+        message.setSender(user.getUserId());
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+            oos.writeObject(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //关闭此客户和服务器连接的线程
+        ClientConnectServerThread clientConnectServerThread =
+                MangeClientConnectServerThread.getClientConnectServerThread(user.getUserId());
+        clientConnectServerThread.setExit(true);
+        System.exit(0);
+        //将此线程从集合中移除
+        MangeClientConnectServerThread.deleteClientConnectServerThread(user.getUserId());
     }
 }

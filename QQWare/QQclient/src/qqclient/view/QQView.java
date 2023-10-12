@@ -60,7 +60,8 @@ public class QQView {
                                     System.out.println("发送文件");
                                     break;
                                 case "9":
-                                    loop = false;
+                                    userClientService.exitClient();//关闭客户端线程并向服务端发送关闭线程的消息
+                                    loop = false;//关闭主界面的菜单，结束main线程
                                     break;
                             }
                         }
