@@ -18,7 +18,9 @@ import java.net.Socket;
 public class UserClientService {
     private User user = new User(); //把user做成属性，在别的地方有可能要使用user属性
     private Socket socket ;
-    //根据userId和pwd到服务器去验证该用户是否合法
+    /**
+     *根据userId和pwd到服务器去验证该用户是否合法
+     */
     public boolean checkUser(String userId,String pwd){
         boolean b = false;
         user.setUserId(userId);

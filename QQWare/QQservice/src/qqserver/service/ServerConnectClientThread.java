@@ -47,7 +47,15 @@ public class ServerConnectClientThread extends Thread{
                     //将信息发送给用户
                     ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
                     oos.writeObject(message2);
-                }else if (message.getMesType().equals(MessageType.MESSAGE_CLIENT_EXIT)) {
+                }else if (message.getMesType().equals(MessageType.MESSAGE_COMM_MES)){
+                    //私发消息
+                    //获取私发对象的输出流,直接把接收到的message发送过去
+                    ObjectOutputStream oos = new ObjectOutputStream(ManageServerConnectClientThread.
+                            getServerConnectClientThread(message.getGetter()).getSocket().getOutputStream());
+                    oos.writeObject(message);//如果客户不在线，可以储存到数据库，实现离线留言
+                    System.out.println(message.getSender()+"对"+message.getGetter()+"说："+message.getContent());
+                }
+                else if (message.getMesType().equals(MessageType.MESSAGE_CLIENT_EXIT)) {
                     //客户端退出
                     exit = true;//关闭此线程
                     socket.close();//关闭socket

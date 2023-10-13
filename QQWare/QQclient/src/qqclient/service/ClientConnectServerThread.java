@@ -50,7 +50,10 @@ public class ClientConnectServerThread extends Thread{
                     for (int i = 0; i < onlineUsers.length; i++) {
                         System.out.println("用户"+i+"："+ onlineUsers[i]);
                     }
-                }else{
+                }else if (message.getMesType().equals(MessageType.MESSAGE_COMM_MES)){//发消息业务
+                    System.out.println("\n你接收到消息："+message.getSender()+"对你说:"+message.getContent());
+                }
+                else{
                     System.out.println("是其他类型信息，暂时不处理");
                 }
             } catch (Exception e) {

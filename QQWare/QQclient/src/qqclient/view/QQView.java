@@ -1,5 +1,6 @@
 package qqclient.view;
 
+import qqclient.service.MessageSendService;
 import qqclient.service.UserClientService;
 import qqclient.utils.Utility;
 
@@ -12,6 +13,7 @@ public class QQView {
     private boolean loop = true; //控制是否显示主菜单
     private String key = ""; //接收用户的键盘输入
     private UserClientService userClientService = new UserClientService();//用于登录服务器和注册用户
+    private MessageSendService messageSendService = new MessageSendService();//用于发送消息服务
 
     public static void main(String[] args) {
         new QQView().mainMenu();
@@ -54,7 +56,11 @@ public class QQView {
                                     System.out.println("群发消息");
                                     break;
                                 case "3":
-                                    System.out.println("私聊消息");
+                                    System.out.print("请输入想聊天的在线用户：");
+                                    String getter = Utility.readString();
+                                    System.out.print("请输入想说的话：");
+                                    String content = Utility.readString();
+                                    messageSendService.sendMessageToOne(userId,content,getter);
                                     break;
                                 case "4":
                                     System.out.println("发送文件");
