@@ -40,6 +40,19 @@ public class ManageServerConnectClientThread {
          hm.remove(userId);
     }
 
+    /**
+     * 判断某个用户是否在线
+     * @return
+     */
+    public static boolean checkUserOnline(String userId){
+        for (String userName : hm.keySet()) {
+            if (userId.equals(userName)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static HashMap<String, ServerConnectClientThread> getHm() {
         return hm;
     }
