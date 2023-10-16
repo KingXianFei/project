@@ -3,6 +3,7 @@ package qqclient.service;
 import com.king.qqcommon.Message;
 import com.king.qqcommon.MessageType;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -54,6 +55,12 @@ public class ClientConnectServerThread extends Thread{
                     System.out.println("\n你接收到消息："+message.getSender()+"对你说:"+message.getContent());
                 }else if (message.getMesType().equals(MessageType.MESSAGE_TO_ALL_MES)){//接收群发消息
                     System.out.println("\n你接收到消息："+message.getSender()+"对所有在线用户说:"+message.getContent());
+                }else if (message.getMesType().equals(MessageType.MESSAGE_FILE_MES)){//接收发送的文件
+                    FileOutputStream fileOutputStream = new FileOutputStream(message.getDest());
+                    fileOutputStream.write(message.getFileBytes());
+                    fileOutputStream.close();//关闭流，并刷新
+                    System.out.println("\n你接收到文件："+message.getSender()+"给你发送文件:"
+                            +message.getSrc()+", 储存到本地目录"+message.getDest());
                 }
                 else{
                     System.out.println("是其他类型信息，暂时不处理");

@@ -71,6 +71,13 @@ public class ServerConnectClientThread extends Thread{
                         }
                     }
                     System.out.println(message.getSender()+"对所有在线用户说："+message.getContent());
+                }else if (message.getMesType().equals(MessageType.MESSAGE_FILE_MES)){
+                    //发送文件
+                    //获取文件发送对象的输出流,直接把接收到的message发送过去
+                    ObjectOutputStream oos = new ObjectOutputStream(ManageServerConnectClientThread.
+                            getServerConnectClientThread(message.getGetter()).getSocket().getOutputStream());
+                    oos.writeObject(message);//如果客户不在线，可以储存到数据库，实现离线留言
+                    System.out.println(message.getSender()+"给"+message.getGetter()+"发送了文件："+message.getSrc());
                 }
                 else{
                     System.out.println("其他类型的业务暂时不处理");

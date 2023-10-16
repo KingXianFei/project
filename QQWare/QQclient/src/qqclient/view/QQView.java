@@ -1,5 +1,6 @@
 package qqclient.view;
 
+import qqclient.service.FileClientService;
 import qqclient.service.MessageSendService;
 import qqclient.service.UserClientService;
 import qqclient.utils.Utility;
@@ -14,6 +15,7 @@ public class QQView {
     private String key = ""; //接收用户的键盘输入
     private UserClientService userClientService = new UserClientService();//用于登录服务器和注册用户
     private MessageSendService messageSendService = new MessageSendService();//用于发送消息服务
+    private FileClientService fileClientService = new FileClientService();//用于文件发送
 
     public static void main(String[] args) {
         new QQView().mainMenu();
@@ -65,7 +67,9 @@ public class QQView {
                                     messageSendService.sendMessageToOne(userId,content,getter);
                                     break;
                                 case "4":
-                                    System.out.println("发送文件");
+                                    System.out.print("请输入想发送文件的在线用户：");
+                                    String getterId = Utility.readString();
+                                    fileClientService.sendFileToOne("D:\\test\\123.png","D:\\test\\456.png",userId,getterId);
                                     break;
                                 case "9":
                                     userClientService.exitClient();//关闭客户端线程并向服务端发送关闭线程的消息
