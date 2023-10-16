@@ -34,4 +34,24 @@ public class MessageSendService {
             e.printStackTrace();
         }
     }
+    /**
+     * 群发消息实现
+     */
+    public void sendMessageToAll(String userId,String content){
+        //设置message
+        Message message = new Message();
+        message.setSender(userId);
+        message.setContent(content);
+        message.setMesType(MessageType.MESSAGE_TO_ALL_MES);
+        message.setSendTime(new Date().toString());
+        System.out.println("你在群里说："+'"'+ content +'"');
+        //发送给服务端
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(
+                    MangeClientConnectServerThread.getClientConnectServerThread(userId).getSocket().getOutputStream());
+            oos.writeObject(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -53,7 +53,9 @@ public class QQView {
                                     userClientService.getOnlineFriendList();
                                     break;
                                 case "2":
-                                    System.out.println("群发消息");
+                                    System.out.print("请输入想对大家说的话：");
+                                    String content1 = Utility.readString();
+                                    messageSendService.sendMessageToAll(userId,content1);
                                     break;
                                 case "3":
                                     System.out.print("请输入想聊天的在线用户：");

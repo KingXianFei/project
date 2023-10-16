@@ -39,4 +39,12 @@ public class ManageServerConnectClientThread {
     public static void deleteServerConnectClientThread(String userId){
          hm.remove(userId);
     }
+
+    public static HashMap<String, ServerConnectClientThread> getHm() {
+        return hm;
+    }
+
+    public static void setHm(HashMap<String, ServerConnectClientThread> hm) {
+        ManageServerConnectClientThread.hm = hm;
+    }
 }

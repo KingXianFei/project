@@ -54,15 +54,25 @@ public class ServerConnectClientThread extends Thread{
                             getServerConnectClientThread(message.getGetter()).getSocket().getOutputStream());
                     oos.writeObject(message);//如果客户不在线，可以储存到数据库，实现离线留言
                     System.out.println(message.getSender()+"对"+message.getGetter()+"说："+message.getContent());
-                }
-                else if (message.getMesType().equals(MessageType.MESSAGE_CLIENT_EXIT)) {
+                } else if (message.getMesType().equals(MessageType.MESSAGE_CLIENT_EXIT)) {
                     //客户端退出
                     exit = true;//关闭此线程
                     socket.close();//关闭socket
                     //将此线程从集合中移除
                     ManageServerConnectClientThread.deleteServerConnectClientThread(message.getSender());
                     System.out.println(message.getSender()+"退出连接~");
-                }else{
+                }else if (message.getMesType().equals(MessageType.MESSAGE_TO_ALL_MES)){
+                    //群发消息
+                    for (String userName : ManageServerConnectClientThread.getHm().keySet()) {
+                        if (!(userName.equals(message.getSender()))){
+                            ObjectOutputStream oos = new ObjectOutputStream(ManageServerConnectClientThread.
+                                    getServerConnectClientThread(userName).getSocket().getOutputStream());
+                            oos.writeObject(message);
+                        }
+                    }
+                    System.out.println(message.getSender()+"对所有在线用户说："+message.getContent());
+                }
+                else{
                     System.out.println("其他类型的业务暂时不处理");
                 }
             } catch (Exception e) {

@@ -52,6 +52,8 @@ public class ClientConnectServerThread extends Thread{
                     }
                 }else if (message.getMesType().equals(MessageType.MESSAGE_COMM_MES)){//发消息业务
                     System.out.println("\n你接收到消息："+message.getSender()+"对你说:"+message.getContent());
+                }else if (message.getMesType().equals(MessageType.MESSAGE_TO_ALL_MES)){//接收群发消息
+                    System.out.println("\n你接收到消息："+message.getSender()+"对所有在线用户说:"+message.getContent());
                 }
                 else{
                     System.out.println("是其他类型信息，暂时不处理");
