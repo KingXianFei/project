@@ -30,6 +30,7 @@ public class QQServer {
     public QQServer() {
         try {
             System.out.println("服务端在9999端口监听...");
+            new SendNewsToAllService().start();//启动服务端的推送服务线程
             serverSocket = new ServerSocket(9999);
             while (true){//当和某个客户连接后，会继续监听
                 Socket socket = serverSocket.accept();
